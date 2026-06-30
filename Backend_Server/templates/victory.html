@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mission Accomplished - PhishGuard City</title>
+    <style>
+        body {
+            margin: 0; padding: 0; background: #0a0f1e; color: white;
+            font-family: 'Segoe UI', Arial, sans-serif; display: flex; 
+            align-items: center; justify-content: center; min-height: 100vh; 
+            text-align: center; overflow: hidden; 
+        }
+        .victory-card {
+            background: rgba(13, 25, 41, 0.9); border: 2px solid #00f2ff;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.3); border-radius: 20px; 
+            padding: 30px 20px; 
+            max-width: 500px; width: 90%; transform: scale(0.9); 
+        }
+        h1 { color: #00f2ff; font-size: 2rem; margin: 5px 0; text-shadow: 0 0 10px #00f2ff; }
+        .trophy { font-size: 60px; margin: 5px 0; }
+        .stat-box {
+            background: rgba(0, 0, 0, 0.5); border: 1px solid #ff00ff; border-radius: 10px;
+            padding: 15px; margin: 15px 0; display: flex; justify-content: space-around;
+        }
+        .btn {
+            background: linear-gradient(45deg, #00f2ff, #0077ff); color: #000; font-weight: bold; 
+            padding: 10px 25px; border-radius: 20px; text-decoration: none; display: inline-block; 
+            margin-top: 10px;
+        }
+        .congrats-text {
+        font-size: 3rem;
+        color: #00f2ff;
+        text-shadow: 0 0 20px #00f2ff;
+        animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="victory-card">
+        <div class="trophy">🏆</div>
+        <h1>CONGRATULATIONS!</h1>
+        <p style="font-size: 0.9rem;">Agent <b>{{ email.split('@')[0]|upper }}</b>, PhishGuard City is secure!</p>
+
+        <!-- Security Report -->
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid #00f2ff; border-radius: 10px; padding: 15px; text-align: left; font-size: 0.85rem;">
+            <b style="color:#00f2ff">Security Profile Analysis</b>
+            <ul style="padding-left: 20px; margin: 10px 0;">
+                <li>Phishing URL susceptibility: <b>{{ url_miss }} time(s)</b></li>
+                <li>Urgency trigger susceptibility: <b>{{ urg_miss }} time(s)</b></li>
+            </ul>
+            <b style="color:#ff00ff">Final Risk Score: {{ (risk * 100)|int }}%</b>
+        </div>
+
+        <!-- XP & Status -->
+        <div class="stat-box">
+            <div><span style="font-size: 0.7rem;">XP EARNED</span><br>{{ xp }}</div>
+            <div><span style="font-size: 0.7rem;">STATUS</span><br>SAVVY 🛡️</div>
+        </div>
+        <!-- Extension Download -->
+    <div style="text-align: center; margin: 25px 0; padding: 20px; background: rgba(0, 242, 255, 0.08); border: 1px dashed #00f2ff; border-radius: 12px;">
+        <h3 style="color: #00f2ff; margin-top: 0; font-size: 1.2rem; letter-spacing: 1px;">MISSION COMPLETE: EQUIP YOUR ARMOR</h3>
+        <p style="color: #ddd; font-size: 0.9rem; margin-bottom: 15px;">
+            Take your personalized PhishGuard defenses into the real world. Download your adaptive browser extension now!
+        </p>
+        
+        <a href="{{ url_for('static', filename='downloads/PhishGuard_Extension.zip') }}" download 
+        style="display: inline-block; background: linear-gradient(45deg, #00f2ff, #0077ff); color: #000; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 8px; font-size: 1rem; box-shadow: 0 0 15px rgba(0,242,255,0.4); text-transform: uppercase;">
+            ⬇️ Download PhishGuard Extension
+        </a>
+    </div>
+
+        <a href="/dashboard" class="btn">Return to Dashboard 🚀</a>
+    </div>
+    <!-- Confetti Library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<script>
+    // fireworks (confetti) 
+    function triggerFireworks() {
+        var duration = 3 * 1000;
+        var end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 5,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 }
+            });
+            confetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 }
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    }
+
+    // fireworks as soon as the page loads
+    window.onload = triggerFireworks;
+</script>
+</body>
+</html>

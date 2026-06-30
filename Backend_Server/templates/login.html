@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PhishGuard City - Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+             
+            background: linear-gradient(rgba(10, 15, 30, 0.75), rgba(10, 15, 30, 0.75)), 
+                        url('https://lh3.googleusercontent.com/u/0/d/1kCVqAVIaZDpimPNKtZU5ydTOqGQlNvu9'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        /* Login Card - Glassmorphism Style */
+        .login-box {
+            background: rgba(13, 25, 41, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #00f2ff;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        h2 {
+            color: #00f2ff;
+            text-shadow: 0 0 10px #00f2ff;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00f2ff;
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.5);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box; /* Padding නිසා size එක වෙනස් වීම වැළැක්වීමට */
+        }
+
+        input:focus {
+            border-color: #00f2ff;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        /* Cyber Button */
+        button {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            color: #00f2ff;
+            border: 2px solid #00f2ff;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        button:hover {
+            background: #00f2ff;
+            color: #0d1929;
+            box-shadow: 0 0 20px #00f2ff;
+        }
+
+        .footer-text {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        a { color: #ff00ff; text-decoration: none; }
+        a:hover { text-shadow: 0 0 10px #ff00ff; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>CITY ACCESS</h2>
+        <form action="/login" method="post">
+            <!-- 1. Email  -->
+            <div class="input-group">
+                <label>IDENTIFICATION (Email)</label>
+                <input type="email" name="email" placeholder="Enter your email..." required>
+            </div>
+            
+            <!-- 2. Password -->
+            <div class="input-group">
+                <label>SECURITY CLEARANCE (Password)</label>
+                <input type="password" name="password" placeholder="Enter your password..." required>
+            </div>
+
+            <!-- 3. Button -->
+            <button type="submit">Initialize Mission</button>
+        </form>
+
+        <div class="footer-text">
+            Not a citizen yet? <a href="/signup">Apply for Access</a>
+        </div>
+    </div>
+
+</body>
+</html>

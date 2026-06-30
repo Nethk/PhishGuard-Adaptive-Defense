@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mission: Identify the Threat</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(rgba(10, 15, 30, 0.75), rgba(10, 15, 30, 0.75)), 
+                        url('https://lh3.googleusercontent.com/u/0/d/1NcHYL0U6aaZiTnQp6vdNtmXNq5XHFFwG');
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh;
+        }
+
+        h2 { color: #00f2ff; text-shadow: 0 0 10px #00f2ff; margin-bottom: 20px; }
+
+        /* Email Card Container */
+        .email-container {
+            background: white; color: #333;
+            width: 90%; max-width: 600px;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            border: 2px solid #00f2ff;
+        }
+
+        .email-header { background: #f4f7f6; padding: 20px; border-bottom: 1px solid #ddd; }
+        .email-body { padding: 30px; line-height: 1.6; font-size: 1.05rem; }
+
+        .meta { font-size: 0.9rem; color: #666; margin-bottom: 5px; }
+        .meta strong { color: #333; }
+
+        /* Phishing Link Style */
+        .phish-link {
+            display: inline-block; background: #f0f0f0; padding: 10px 15px;
+            border-radius: 5px; color: #0066cc; text-decoration: underline;
+            font-weight: bold; margin-top: 15px; cursor: pointer;
+        }
+
+        /* Action Buttons */
+        .action-area { margin-top: 30px; display: flex; gap: 20px; }
+        
+        .btn {
+            padding: 15px 40px; border: none; border-radius: 10px;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase;
+        }
+
+        .btn-safe { background: #28a745; color: white; box-shadow: 0 0 15px rgba(40, 167, 69, 0.3); }
+        .btn-safe:hover { background: #218838; transform: scale(1.05); }
+
+        .btn-phish { background: #dc3545; color: white; box-shadow: 0 0 15px rgba(220, 53, 69, 0.3); }
+        .btn-phish:hover { background: #c82333; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <h2>MISSION: IDENTIFY THE EMAIL 🕵️</h2>
+
+    <div class="email-container">
+        <div class="email-header">
+            <!-- Using the 'question' variable from the backend -->
+            <div class="meta"><strong>From:</strong> {{ question['sender'] }}</div>
+            <div class="meta"><strong>Subject:</strong> {{ question['subject'] }}</div>
+        </div>
+        <div class="email-body">
+            {{ question['body'] }}<br><br>
+            
+            <!-- The link changes according to the new question[cite: 2, 4] -->
+            <div class="phish-link">{{ question['link'] }}</div>
+        </div>
+    </div>
+
+    <p style="margin-top: 25px; color: #00f2ff;">What is your professional opinion about this email?</p>
+
+    <form action="/check_level1" method="post" class="action-area">
+        <button type="submit" name="answer" value="safe" class="btn btn-safe">This is Safe</button>
+        <button type="submit" name="answer" value="phishing" class="btn btn-phish">This is Phishing</button>
+    </form>
+
+</body>
+</html>

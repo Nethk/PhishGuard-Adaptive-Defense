@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mission Result</title>
+    <style>
+        body { 
+            background-color: #1a1a2e; color: white; 
+            font-family: 'Segoe UI', sans-serif; text-align: center; 
+            padding-top: 100px; overflow: hidden; /* Rain එක එළියට නොයන්න */
+        }
+        .result-card { 
+            background: #16213e; padding: 50px; border-radius: 20px; 
+            display: inline-block; border: 3px solid {{ color }}; 
+            box-shadow: 0px 0px 20px {{ color }};
+            position: relative; z-index: 10;
+        }
+        .emoji-main { font-size: 80px; margin-bottom: 20px; }
+        .msg { font-size: 24px; margin-bottom: 30px; }
+        .btn { 
+            background: {{ color }}; color: white; padding: 12px 30px; 
+            text-decoration: none; border-radius: 8px; font-weight: bold; 
+        }
+
+        /* Rain Animation  CSS */
+        .falling-emoji {
+            position: absolute;
+            top: -50px;
+            font-size: 30px;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="result-card">
+        <div class="emoji-main">{{ emoji }}</div>
+        <div class="msg">{{ message }}</div>
+
+            <!--  result.html button-->
+            <a href="{{ next_url }}" class="btn" style="background-color: {{ color }}; display: inline-block; text-decoration: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; color: white;">
+    Continue Mission 🚀
+            </a>
+        
+    </div>
+
+    <script>
+        // Emoji 
+        function createRain() {
+            const emojiList = {{ '["❤️", "💖", "🛡️", "⭐", "🔥"]'|safe if color == "#4CAF50" else '["⚠️", "🚨", "🛑", "❗"]'|safe }};
+            const rainCount = 40; // Number of falling emojis
+
+            for (let i = 0; i < rainCount; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'falling-emoji';
+                emoji.innerText = emojiList[Math.floor(Math.random() * emojiList.length)];
+                
+                // Randomly selecting starting point and speed
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                emoji.style.opacity = Math.random();
+                
+                document.body.appendChild(emoji);
+                
+                // Removing the animation when it's finished
+                setTimeout(() => {
+                    emoji.remove();
+                }, 4000);
+            }
+        }
+
+        // Start as soon as the page loads
+        window.onload = createRain;
+    </script>
+</body>
+</html>

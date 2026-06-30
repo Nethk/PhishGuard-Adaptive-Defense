@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PhishGuard City - Dashboard</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(rgba(10, 15, 30, 0.8), rgba(10, 15, 30, 0.8)), 
+                        url('https://lh3.googleusercontent.com/u/0/d/1kCVqAVIaZDpimPNKtZU5ydTOqGQlNvu9'); 
+            background-size: 100% 100%; background-repeat: no-repeat; background-position: center; background-attachment: fixed;
+            font-family: 'Segoe UI', Arial, sans-serif; color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden;
+        }
+
+        .char-left { position: fixed; bottom: -80px; left: 0; height: 120vh; z-index: 1; pointer-events: none; filter: brightness(1.2) contrast(1.1); animation: floatingLeft 4s ease-in-out infinite; }
+        .char-right { position: fixed; bottom: -80px; right: -20px; height: 120vh; z-index: 9999; pointer-events: none; mix-blend-mode: screen; filter: brightness(1.2) contrast(1.1); animation: floatingRight 5s ease-in-out infinite; transition: all 0.5s ease; }
+        .map-container, .header { position: relative; z-index: 5; }
+        .header { text-align: center; padding: 30px; margin-top: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-radius: 15px; border: 1px solid rgba(0, 242, 255, 0.3); width: 80%; max-width: 800px; }
+        h1 { margin: 0; font-size: 2.2rem; color: #00f2ff; text-shadow: 0 0 15px rgba(0, 242, 255, 0.6); }
+        .status { color: #ff00ff; font-weight: bold; text-shadow: 0 0 10px #ff00ff; }
+
+        .character-box { position: fixed; bottom: 20px; left: 20px; background: rgba(0, 242, 255, 0.1); backdrop-filter: blur(10px); border: 2px solid #00f2ff; border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); z-index: 9999 !important; }
+        .char-image { width: 60px; height: 60px; background: #111; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; border: 2px solid #ff00ff; animation: glowChar 2s infinite alternate; }
+
+        .map-container { background: rgba(13, 25, 41, 0.8); backdrop-filter: blur(15px); padding: 60px 40px; border-radius: 30px; border: 2px solid #00f2ff; box-shadow: 0 0 40px rgba(0, 242, 255, 0.3); margin: 40px 0; width: 90%; max-width: 900px; text-align: center; }
+        .cyber-map { display: flex; align-items: center; justify-content: space-around; }
+
+        .level-node { width: 100px; height: 100px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s; border: 4px solid #444; }
+        .level-node.active { border-color: #00f2ff; background: rgba(0, 242, 255, 0.2); box-shadow: 0 0 25px #00f2ff; animation: pulse 2s infinite; }
+        .level-node.locked { cursor: not-allowed; opacity: 0.6; }
+
+        .map-path { flex-grow: 1; height: 6px; background: #444; margin: 0 10px; border-radius: 3px; }
+        .map-path.active { background: #00f2ff; box-shadow: 0 0 15px #00f2ff; }
+        /*  moving all the buttons into a single row */
+        /* Horizontal layout CSS */
+        .controls-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%); /* Get right in the middle */
+            display: flex;
+            flex-direction: row; /* Line up */
+            gap: 15px;            /* Spacing between buttons */
+            z-index: 1000;
+        }
+
+        .btn-style {
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 1px solid;
+            font-size: 0.85rem; 
+            white-space: nowrap; /* letters don't break */
+        }
+        /* Reset button CSS */
+        .reset-btn-fixed {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #ff9f43;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #ff9f43;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(255, 159, 67, 0.1);
+            z-index: 1000;
+        }
+        .reset-btn-fixed:hover { background: rgba(255, 159, 67, 0.2); }
+
+        @keyframes floatingLeft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes floatingRight { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 10px #00f2ff; } 50% { box-shadow: 0 0 30px #00f2ff; } }
+        @keyframes glowChar { from { box-shadow: 0 0 5px #ff00ff; } to { box-shadow: 0 0 20px #ff00ff; } }
+    </style>
+</head>
+<body>
+
+    <img src="https://lh3.googleusercontent.com/u/0/d/1X16ei8QIPLpvcI3KfIwkhzyp5QU7QsDi" class="char-left" alt="Guardian">
+    <img src="https://lh3.googleusercontent.com/u/0/d/15PxL9eis6HdpcRotxryJXai2RFAZpRz4" class="char-right" alt="Shadow">
+
+    <div class="header">
+    <h1>Welcome, {{ username }}! 🛡️</h1>
+    <div class="status-bar">
+        Role: <span class="status">{{ avatar|capitalize }}</span> | 
+        XP: <span class="status">{{ xp }}</span> 
+    </div>
+</div>
+
+    <div class="character-box">
+        <div class="char-image">
+            {% if avatar == 'ghost' %}👻{% else %}🛡️{% endif %}
+        </div>
+        <div>
+            <div style="font-size: 0.8rem; color: #00f2ff;">AGENT ACTIVE</div>
+            <div style="font-weight: bold; letter-spacing: 1px;">{{ email.split('@')[0]|upper }}</div>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <h2 style="color: #00f2ff; margin-bottom: 50px;">PhishGuard City: The Path to Safety</h2>
+        <div class="cyber-map">
+            
+            <!-- Level 1  -->
+            <div class="level-node active" onclick="location.href='/start_mission/1'">
+                <div style="font-size: 24px; font-weight: bold;">01</div>
+                <div style="font-size: 14px; color: #00f2ff; font-weight: bold; margin-top: 10px;">URL Check</div>
+            </div>
+            
+            <div class="map-path {% if level >= 2 %}active{% endif %}"></div>
+            
+            <!-- 🚨 Level 2 (DYNAMIC LOCK LOGIC) -->
+            {% if level >= 2 %}
+                <div class="level-node active" onclick="location.href='/start_mission/2'">
+                    <div style="font-size: 24px; font-weight: bold;">02</div>
+                    <div style="font-size: 14px; color: #00f2ff; font-weight: bold; margin-top: 10px;">Urgency</div>
+                </div>
+            {% else %}
+                <div class="level-node locked">
+                    <div style="font-size: 24px;">🔒</div>
+                    <div style="font-size: 14px; margin-top: 10px;">Urgency</div>
+                </div>
+            {% endif %}
+
+            <div class="map-path {% if level >= 3 %}active{% endif %}"></div>
+            
+            <!-- 🚨 Level 3 (DYNAMIC LOCK LOGIC) -->
+            {% if level >= 3 %}
+                <div class="level-node active" onclick="location.href='/start_mission/3'">
+                    <div style="font-size: 24px; font-weight: bold;">03</div>
+                    <div style="font-size: 14px; color: #00f2ff; font-weight: bold; margin-top: 10px;">File Shield</div>
+                </div>
+            {% else %}
+                <div class="level-node locked">
+                    <div style="font-size: 24px;">🔒</div>
+                    <div style="font-size: 14px; margin-top: 10px;">File Shield</div>
+                </div>
+            {% endif %}
+
+        </div>
+        <!-- 🚨 NEW: Security Badge & Reset Button -->
+    <div style="margin-top: 20px; text-align: center;">
+        
+        <!-- Cyber Sentinel Badge: Risk එක 0.3 ට අඩු නම් විතරක් පෙන්නයි -->
+        {% if risk_score <= 0.3 %}
+            <div style="background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; padding: 10px 20px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; display: inline-block;">
+                🏆 Cyber Sentinel Certified
+            </div>
+        {% endif %}
+
+        <br>
+
+    </div>
+        
+    </div>
+
+    <!-- Controls Panel (Reset, Leaderboard, Logout) -->
+    <div class="controls-container">
+        <a href="/reset_progress" onclick="return confirm('Are you sure?')" class="btn-style" style="color: #ff9f43; border-color: #ff9f43; background: rgba(255, 159, 67, 0.1);">Reset 🔄</a>
+        <a href="/leaderboard" class="btn-style" style="color: #ff00ff; border-color: #ff00ff; background: rgba(255, 0, 255, 0.1);">Leaderboard 🏆</a>
+        <a href="/logout" class="btn-style" style="color: #f43f5e; border-color: #f43f5e; background: rgba(244, 63, 94, 0.1);">Logout 🚪</a>
+    </div>
+
+    <div id="pg-active-user" data-id="{{ session['user_id'] }}" style="display: none;"></div>
+<script>
+    // While in the Dashboard, the ID is sent directly to Chrome Storage
+    const userId = document.getElementById('pg-active-user').getAttribute('data-id');
+    chrome.storage.local.set({'pg_user_id': userId}, function() {
+        console.log("✅ ID Synced to storage: " + userId);
+    });
+</script>
+</body>
+</html>

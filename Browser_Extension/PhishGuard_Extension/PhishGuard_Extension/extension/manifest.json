@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "PhishGuard Adaptive Sentinel",
+  "version": "3.0",
+  "permissions": [
+    "storage", 
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://7d5d-111-223-183-153.ngrok-free.app/*",
+    "<all_urls>"
+  ],
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://mail.google.com/*"],
+      "js": ["gmail_scanner.js"]
+    },
+    {
+      "matches": ["*://outlook.live.com/*"],
+      "js": ["outlook_scanner.js"]
+    }
+  ]
+}

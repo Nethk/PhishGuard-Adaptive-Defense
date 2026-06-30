@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PhishGuard City - Citizenship Application</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(rgba(10, 15, 30, 0.8), rgba(10, 15, 30, 0.8)), 
+                        url('https://lh3.googleusercontent.com/u/0/d/1kCVqAVIaZDpimPNKtZU5ydTOqGQlNvu9'); 
+            background-size: cover; background-position: center; background-attachment: fixed;
+            font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex;
+            justify-content: center; align-items: center; color: white;
+        }
+
+        .signup-box {
+            background: rgba(13, 25, 41, 0.9); backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 20px; border: 2px solid #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2); width: 100%; max-width: 450px; text-align: center;
+        }
+
+        h2 { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; margin-bottom: 25px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 5px; color: #00f2ff; font-size: 0.85rem; }
+
+        /* Move the labels to the left side */
+        .form-group label {
+            display: block;
+            text-align: left; 
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+/* The boxes should be the same */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 8px; color: white; outline: none;
+            box-sizing: border-box;/* මේකෙන් තමයි බොක්ස් එක පේජ් එකෙන් එළියට නොගිහින් හරියටම ෆිට් වෙන්නේ */
+        }
+
+        /* Avatar Selector Buttons */
+        .avatar-selector {
+            display: flex; gap: 10px; margin-top: 10px;
+        }
+
+        .avatar-option {
+            flex: 1; padding: 15px 10px; border: 2px solid rgba(0, 242, 255, 0.3);
+            border-radius: 10px; cursor: pointer; transition: 0.3s;
+            background: rgba(13, 25, 41, 0.6); text-align: center;
+            font-weight: bold; font-size: 0.9rem;
+        }
+
+        .avatar-option:hover { border-color: #00f2ff; background: rgba(0, 242, 255, 0.1); }
+
+        /* appears when the image is selected */
+        .avatar-option.selected {
+            border-color: #ff00ff; background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+
+        .main-btn {
+            width: 100%; padding: 15px; background: transparent; color: #ff00ff;
+            border: 2px solid #ff00ff; border-radius: 8px; font-weight: bold;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; margin-top: 25px;
+        }
+
+        .main-btn:hover { background: #ff00ff; color: white; box-shadow: 0 0 20px #ff00ff; }
+    </style>
+</head>
+<body>
+    <div class="signup-box">
+        <h2>CITY CITIZENSHIP</h2>
+        <form action="/register" method="post" id="signupForm">
+            <div class="form-group">
+                <label style="color: #00f2ff;">AGENT CALLSIGN (Username)</label>
+                <input type="text" name="username" placeholder="e.g. Nethmi" required 
+           style="width: 100%; padding: 12px; margin: 10px 0; background: rgba(0,0,0,0.3); border: 1px solid #00f2ff; color: white; border-radius: 5px;">
+            </div>
+            <div class="input-group">
+                <label>CITIZEN IDENTIFICATION (Email)</label>
+                <input type="email" name="email" placeholder="e.g. nethmi@example.com" required>
+            </div>
+            <div class="input-group">
+                <label>SECURITY CLEARANCE (Password)</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <div class="input-group">
+                <label>CHOOSE YOUR FACTION (Avatar)</label>
+                <div class="avatar-selector">
+                    <div class="avatar-option selected" onclick="selectAvatar('guardian', this)">
+                        🛡️<br>Guardian
+                    </div>
+                    <div class="avatar-option" onclick="selectAvatar('ghost', this)">
+                        👻<br>Ghost
+                    </div>
+                </div>
+                <!-- Hidden input to store selected value -->
+                <input type="hidden" name="avatar" id="selectedAvatar" value="guardian">
+            </div>
+
+            <button type="submit" class="main-btn">Join the PhishGuard Force</button>
+        </form>
+    </div>
+
+    <script>
+        function selectAvatar(val, element) {
+            // Remove selected class from all
+            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+            // Add selected class to clicked one
+            element.classList.add('selected');
+            // Update hidden input
+            document.getElementById('selectedAvatar').value = val;
+        }
+    </script>
+</body>
+</html>

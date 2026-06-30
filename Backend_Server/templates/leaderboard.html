@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PhishGuard - Leaderboard</title>
+    <style>
+        body { background: #0a0f1e; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .leaderboard-box { 
+            background: rgba(0, 242, 255, 0.05); border: 2px solid #00f2ff;
+            border-radius: 20px; width: 80%; max-width: 500px;
+            margin: 50px auto; padding: 30px;
+        }
+        .player-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px; border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        }
+        .rank { color: #ff00ff; font-weight: bold; font-size: 1.2rem; }
+        .xp { color: #00f2ff; font-weight: bold; }
+        .btn-back { 
+            display: inline-block; margin-top: 20px; color: #ff00ff; 
+            text-decoration: none; border: 1px solid #ff00ff; padding: 10px 20px; border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="leaderboard-box">
+        <h2 style="color: #00f2ff; text-shadow: 0 0 10px #00f2ff;">🏆 CITY TOP GUARDIANS</h2>
+        {% for player in players %}
+        <div class="player-row">
+            <span class="rank">#{{ loop.index }}</span>
+            <span>{{ player['email'].split('@')[0] }}</span>
+            <span class="xp">{{ player['total_xp'] }} XP</span>
+        </div>
+        {% endfor %}
+        <a href="/dashboard" class="btn-back">Back to Command Center</a>
+    </div>
+</body>
+</html>
